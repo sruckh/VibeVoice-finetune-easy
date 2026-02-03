@@ -1,12 +1,34 @@
 # VibeVoice Fine-tuning - Easy Scripts
 
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/sruckh/VibeVoice-finetune-easy/blob/main/VibeVoice_Fine_Tuning.ipynb)
+
 Simplified scripts for fine-tuning VibeVoice models with LoRA. The goal is to make the process as painless as possible with reasonable defaults and clear instructions.
+
+🚀 **New:** Try the [Google Colab notebook](https://colab.research.google.com/github/sruckh/VibeVoice-finetune-easy/blob/main/VibeVoice_Fine_Tuning.ipynb) for zero-setup training in the cloud!
 
 ![Workflow Overview](docs/diagrams/workflow-overview.svg)
 
 ## Quick Start
 
-### 1. Setup Environment
+Choose your preferred method:
+
+### Option A: Google Colab (Easiest - No Setup Required)
+
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/sruckh/VibeVoice-finetune-easy/blob/main/VibeVoice_Fine_Tuning.ipynb)
+
+Click the badge above to open the notebook in Google Colab. You'll get:
+- ✅ Free GPU access (T4)
+- ✅ No local installation needed
+- ✅ Direct upload of audio files
+- ✅ Automatic saving to Google Drive
+
+**Recommended for:** Beginners, quick experiments, or if you don't have a GPU.
+
+---
+
+### Option B: Local Setup
+
+#### 1. Setup Environment
 
 ```bash
 bash 01-setup.sh
@@ -20,7 +42,7 @@ This script will:
 - Download the VibeVoice model (1.5B or 7B)
 - Create helper scripts
 
-### 2. Prepare Your Dataset
+#### 2. Prepare Your Dataset
 
 ```bash
 source activate_env.sh
@@ -32,7 +54,7 @@ Or with existing transcripts:
 python 02-prepare_dataset.py --audio_dir /path/to/audio --transcript_dir /path/to/transcripts --output data/dataset.jsonl
 ```
 
-### 3. Train the Model
+#### 3. Train the Model
 
 ```bash
 python 03-train.py --dataset data/dataset.jsonl --model 1.5B
@@ -362,6 +384,39 @@ sudo apt-get install ffmpeg
 # macOS
 brew install ffmpeg
 ```
+
+---
+
+## 🚀 Google Colab Notebook
+
+For users who prefer a cloud-based, zero-setup approach, we provide a fully-featured [Google Colab notebook](https://colab.research.google.com/github/sruckh/VibeVoice-finetune-easy/blob/main/VibeVoice_Fine_Tuning.ipynb).
+
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/sruckh/VibeVoice-finetune-easy/blob/main/VibeVoice_Fine_Tuning.ipynb)
+
+### What's Included
+
+- **Interactive Setup**: One-click environment setup
+- **Multiple Data Sources**: Upload directly, use Google Drive, or HuggingFace datasets
+- **Auto-Transcription**: Built-in Whisper integration
+- **Visual Configuration**: Sliders and dropdowns for all training parameters
+- **Progress Monitoring**: Real-time training progress
+- **Easy Export**: Save to Google Drive or download directly
+
+### Recommended for
+
+- 🆕 Beginners new to ML fine-tuning
+- 💻 Users without local GPU access
+- ⚡ Quick experiments and prototyping
+- 📚 Educational purposes
+
+### Hardware on Colab
+
+| Model | Colab GPU | Status |
+|-------|-----------|--------|
+| VibeVoice 1.5B | T4 (Free tier) | ✅ Works well |
+| VibeVoice 1.5B | A100 (Pro) | ✅ Fast training |
+| VibeVoice 7B | T4 (Free tier) | ⚠️ May OOM, try gradient checkpointing |
+| VibeVoice 7B | A100 (Pro) | ✅ Recommended |
 
 ---
 
