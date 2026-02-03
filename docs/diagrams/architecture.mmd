@@ -1,0 +1,63 @@
+%% VibeVoice Training Architecture
+%% Date: 2026-02-03
+
+flowchart TB
+    subgraph Input["Input"]
+        Audio["Audio Input<br/>(24kHz)"]
+        Text["Text Transcript"]
+        Voice["Voice Prompt<br/>(optional)"]
+    end
+    
+    subgraph Preprocessing["Audio Preprocessing"]
+        AcTok["Acoustic Tokenizer"]
+        SemTok["Semantic Tokenizer"]
+    end
+    
+    subgraph Model["VibeVoice Model"]
+        subgraph LLM["Qwen2 LLM Backbone<br/>(Frozen + LoRA)"]
+            Layers["Transformer Layers"]
+            LoRA["LoRA Adapters<br/>q_proj, v_proj, etc."]
+        end
+        
+        subgraph DiffHead["Diffusion Head<br/>(Trainable)"]
+            D1["Acoustic Connector"]
+            D2["Semantic Connector"]
+            D3["DDPM Denoiser"]
+        end
+    end
+    
+    subgraph Training["Training Process"]
+        Loss1["Cross-Entropy Loss<br/>(Text Tokens)"]
+        Loss2["MSE Loss<br/>(Acoustic Latents)"]
+        Combined["Combined Loss"]
+    end
+    
+    subgraph Output["Output"]
+        Pred["Predicted Tokens"]
+        Check["Model Checkpoint"]
+    end
+    
+    Audio --> AcTok & SemTok
+    Text --> LLM
+    Voice --> LLM
+    
+    AcTok --> D1
+    SemTok --> D2
+    
+    LLM --> DiffHead
+    Layers --> LoRA
+    
+    D1 & D2 --> D3
+    LLM --> Loss1
+    DiffHead --> Loss2
+    
+    Loss1 & Loss2 --> Combined
+    Combined --> Check
+    LLM --> Pred
+    
+    style Input fill:#e3f2fd
+    style Preprocessing fill:#e8f5e9
+    style LLM fill:#fff3e0
+    style DiffHead fill:#fce4ec
+    style Training fill:#f3e5f5
+    style Output fill:#e8eaf6

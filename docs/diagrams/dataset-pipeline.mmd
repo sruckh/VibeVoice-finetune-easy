@@ -1,0 +1,52 @@
+%% Dataset Preparation Pipeline
+%% Date: 2026-02-03
+
+flowchart LR
+    subgraph Sources["Data Sources"]
+        S1["Raw Audio<br/>Directory"]
+        S2["CSV Metadata<br/>File"]
+        S3["Existing<br/>Transcripts"]
+    end
+    
+    subgraph Processing["Processing Steps"]
+        P1["Scan & Validate<br/>Audio Files"]
+        P2["Check Audio<br/>Quality (24kHz)"]
+        
+        subgraph Transcription["Transcription Stage"]
+            T1{"Transcript<br/>Exists?"}
+            T2["Use Existing<br/>Transcript"]
+            T3["Auto-Transcribe<br/>(Whisper)"]
+        end
+        
+        P3["Format with<br/>Speaker Labels"]
+        P4["Assign Voice<br/>Prompts"]
+    end
+    
+    subgraph Validation["Validation"]
+        V1["Split Dataset<br/>Train/Val"]
+        V2["Generate<br/>Statistics"]
+    end
+    
+    subgraph Output["JSONL Output"]
+        O1["train.jsonl"]
+        O2["val.jsonl"]
+    end
+    
+    S1 --> P1
+    S2 --> P1
+    S3 -.-> T2
+    
+    P1 --> P2 --> T1
+    T1 -->|Yes| T2
+    T1 -->|No| T3
+    T2 & T3 --> P3 --> P4 --> V1
+    
+    V1 --> V2
+    V1 --> O1
+    V1 --> O2
+    
+    style Sources fill:#e3f2fd
+    style Processing fill:#fff3e0
+    style Transcription fill:#e8f5e9
+    style Validation fill:#fce4ec
+    style Output fill:#e8eaf6

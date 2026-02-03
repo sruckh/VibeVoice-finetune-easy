@@ -1,0 +1,50 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+ENV/
+
+# Project specific
+VibeVoice-finetuning/
+models/
+hf_cache/
+output/
+data/
+wandb/
+
+# Audio files
+*.wav
+*.mp3
+*.flac
+*.ogg
+*.m4a
+
+# Checkpoints
+*.bin
+*.safetensors
+checkpoint-*/
+
+# Logs
+*.log
+logs/
+tensorboard/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Temporary files
+tmp/
+temp/
+*.tmp
