@@ -101,6 +101,9 @@ setup_venv() {
     # Upgrade pip
     pip install --upgrade pip setuptools wheel
     
+    # Pin numpy to <2.0.0 for numba compatibility
+    pip install "numpy<2.0.0"
+    
     print_status "Virtual environment created at ${VENV_DIR}"
 }
 
