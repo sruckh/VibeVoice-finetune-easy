@@ -1,48 +1,22 @@
 %% VibeVoice Fine-tuning Workflow Overview
-%% Date: 2026-02-03
+%% Date: 2026-02-12
 
-flowchart TB
-    subgraph Input["📁 Input Data"]
-        A1["Audio Files<br/>(.wav, .mp3, .flac)"]
-        A2["Transcripts<br/>(optional)"]
-    end
-    
-    subgraph Step1["1️⃣ Setup"]
-        B1["Install Dependencies"]
-        B2["Download Models"]
-        B3["Create Virtual Env"]
-    end
-    
-    subgraph Step2["2️⃣ Prepare Dataset"]
-        C1["Scan Audio Files"]
-        C2["Auto-Transcribe<br/>(Whisper)"]
-        C3["Generate JSONL"]
-        C4["Train/Val Split"]
-    end
-    
-    subgraph Step3["3️⃣ Train Model"]
-        D1["Load VibeVoice<br/>(1.5B or 7B)"]
-        D2["Apply LoRA Adapters"]
-        D3["Dual Loss Training<br/>(CE + Diffusion)"]
-        D4["Save Checkpoints"]
-    end
-    
-    subgraph Output["📦 Output"]
-        E1["Fine-tuned LoRA<br/>Adapter"]
-        E2["Model Checkpoints"]
-    end
-    
-    A1 --> Step1
-    A2 -.-> Step2
-    
-    B1 --> B2 --> B3 --> Step2
-    
-    C1 --> C2 --> C3 --> C4 --> Step3
-    
-    D1 --> D2 --> D3 --> D4 --> Output
-    
-    style Input fill:#e1f5fe
-    style Step1 fill:#fff3e0
-    style Step2 fill:#e8f5e9
-    style Step3 fill:#fce4ec
-    style Output fill:#f3e5f5
+flowchart LR
+    classDef default fill:#e1f5fe,stroke:#0288d1,stroke-width:2px,color:#01579b
+    classDef input fill:#e3f2fd,stroke:#0288d1,stroke-width:2px,color:#01579b
+    classDef setup fill:#fff3e0,stroke:#ef6c00,stroke-width:2px,color:#01579b
+    classDef process fill:#e8f5e9,stroke:#2e7d32,stroke-width:2px,color:#01579b
+    classDef train fill:#fce4ec,stroke:#c62828,stroke-width:2px,color:#01579b
+    classDef output fill:#f3e5f5,stroke:#7b1fa2,stroke-width:2px,color:#01579b
+
+    A1["Audio Files"]:::input --> B1
+    A2["Transcripts"]:::input -.-> C2
+
+    B1["Install Deps"]:::setup --> B2["Download Models"]:::setup --> B3["Create Env"]:::setup --> C1
+
+    C1["Scan Audio"]:::process --> C2["Transcribe"]:::process --> C3["Generate JSONL"]:::process --> C4["Train/Val Split"]:::process --> D1
+
+    D1["Load Model"]:::train --> D2["Apply LoRA"]:::train --> D3["Train"]:::train --> D4["Save"]:::train --> E1
+
+    E1["LoRA Adapter"]:::output
+    D4 --> E2["Checkpoints"]:::output
